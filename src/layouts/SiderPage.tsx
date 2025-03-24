@@ -21,47 +21,21 @@ const HeaderPage = () => {
 
   const menuItems = [
     {
-      key: "dashboard",
-      label: <Link to="/">Tổng quan</Link>,
-      icon: <SettingOutlined />,
+      key: "user_management",
+      label: <Link to="/account-setting/user">Quản lý người dùng</Link>,
     },
-    {
-      key: "thuoc",
-      label: <Link to="/">Đơn thuốc</Link>,
-    },
-    {
-      label: "Cài đặt tài khoản",
-      key: "account_setting",
-      icon: <SettingOutlined />,
-      children: [
-        {
-          label: <Link to="/account-setting/user-group">Nhóm tài khoản</Link>,
-          key: "user_group",
-          authorities: ["user_group_getList"],
-        },
-        {
-          label: <Link to="/account-setting/user">Tài khoản</Link>,
-          key: "user",
-          authorities: ["user_getList"],
-        },
-        {
-          label: <Link to="/account-setting/permission">Phân quyền</Link>,
-          key: "permission",
-        },
-      ],
-    },
-    {
-      label: "Cài đặt hệ thống",
-      key: "system_setting",
-      icon: <SettingOutlined />,
-      children: [
-        {
-          label: <Link to="/system-setting/cabinet">Tủ/Ngăn tủ</Link>,
-          key: "user_group",
-          authorities: ["user_group_getList"],
-        },
-      ],
-    },
+    // {
+    //   label: "Cài đặt hệ thống",
+    //   key: "system_setting",
+    //   icon: <SettingOutlined />,
+    //   children: [
+    //     {
+    //       label: <Link to="/system-setting/user-group">Nhóm tài khoản</Link>,
+    //       key: "user_group",
+    //       authorities: ["user_group_getList"],
+    //     },
+    //   ],
+    // },
   ];
 
   return (

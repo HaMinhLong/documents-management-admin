@@ -4,18 +4,12 @@ import type { CollapseProps } from "antd";
 import { Layout, Select } from "antd";
 import CollapseCustom from "../../../../../components/AntdCustom/CollapseCustom";
 import { UserContext } from "../..";
-import {
-  GetListUserGroupApiResponse,
-  useGetListUserGroupQuery,
-} from "@/api/userGroup";
 
 const { Sider } = Layout;
 const { Option } = Select;
 
 const FilterData = () => {
   const { parameter, setParameter } = useContext(UserContext);
-
-  const { data } = useGetListUserGroupQuery({ selectFields: ["id", "name"] });
 
   // eslint-disable-next-line no-unused-vars
   const getItems: (panelStyle: CSSProperties) => CollapseProps["items"] = (
@@ -36,25 +30,6 @@ const FilterData = () => {
           <Option value="1">Đang hoạt động</Option>
           <Option value="2">Dừng hoạt động</Option>
         </Select>
-      ),
-      style: panelStyle,
-    },
-    {
-      key: "2",
-      label: "Nhóm tài khoản",
-      children: (
-        <Select
-          placeholder="Nhóm tài khoản"
-          style={{ width: "100%", marginBottom: "8px" }}
-          allowClear
-          onChange={(e) => {
-            setParameter?.({ ...parameter, userGroupId: e });
-          }}
-          options={(data as GetListUserGroupApiResponse)?.data?.map((item) => ({
-            value: item?.id,
-            label: item?.name,
-          }))}
-        />
       ),
       style: panelStyle,
     },

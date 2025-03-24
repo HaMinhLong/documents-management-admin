@@ -25,7 +25,7 @@ const UserGroupPage = () => {
         <Layout style={{ minHeight: "100vh" }}>
           <Content style={{ padding: "16px" }}>
             <Typography.Title level={5} className="uppercase mb-4">
-              Tài khoản
+              Quản lý người dùng
             </Typography.Title>
 
             <Layout>

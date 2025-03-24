@@ -1,12 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Popconfirm } from "antd";
-import {
-  TypeUserGroup,
-  useDeleteUserGroupMutation,
-} from "../../../../../api/userGroup";
+import { TypeUserGroup } from "../../../../../api/userGroup";
+import { useDeleteUserMutation } from "@/api/user";
 import { useMessage } from "../../../../../context/MessageContext";
-import { TypeUser } from "../../../../../api/user";
+import { UserStatusType } from "@/type/global";
 
 interface PropsType {
   getList: any;
@@ -20,7 +18,7 @@ export const useColumnTable = ({
   setIsModalVisible,
 }: PropsType) => {
   const messageApi = useMessage();
-  const [deleteUserGroup] = useDeleteUserGroupMutation();
+  const [deleteUser] = useDeleteUserMutation();
 
   return [
     {
@@ -32,10 +30,16 @@ export const useColumnTable = ({
     },
     {
       title: "Tên tài khoản",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "username",
+      key: "username",
       width: 200,
       fixed: "left",
+    },
+    {
+      title: "Họ tên",
+      dataIndex: "full_names",
+      key: "full_name",
+      width: 150,
     },
     {
       title: "Email",
@@ -50,21 +54,25 @@ export const useColumnTable = ({
       width: 150,
     },
     {
-      title: "Nhóm tài khoản",
-      dataIndex: "userGroup",
-      key: "userGroup",
-      width: 200,
-      render: (userGroup: TypeUser) => {
-        return <div>{userGroup?.name || ""}</div>;
-      },
+      title: "Số dư",
+      dataIndex: "balance",
+      key: "balance",
+      width: 100,
     },
+    {
+      title: "Mã giới thiệu",
+      dataIndex: "referral_code",
+      key: "referral_code",
+      width: 100,
+    },
+
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       width: 150,
-      render: (status: number) => {
-        return <div>{status === 1 ? "Đang hoạt động" : "Dừng hoạt động"}</div>;
+      render: (status: UserStatusType) => {
+        return <div>{status}</div>;
       },
     },
     {
@@ -89,8 +97,8 @@ export const useColumnTable = ({
               okText="Xoá"
               cancelText="Huỷ"
               onConfirm={() => {
-                deleteUserGroup({ id: record?.id || 0 }).then((res: any) => {
-                  if (res?.data?.statusCode === 200) {
+                deleteUser({ id: record?.id || 0 }).then((res: any) => {
+                  if (res?.data?.success) {
                     messageApi.success("Xoá tài khoản thành công");
                     getList();
                   } else {

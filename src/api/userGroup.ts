@@ -90,7 +90,7 @@ export type GetListUserGroupApiResponse = {
 };
 
 export type PaginationType = {
-  total: number;
+  totalItems: number;
   page: number;
   limit: number;
   totalPages: number;

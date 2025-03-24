@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Form, Input, Modal, Select, Spin } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Select, Spin } from "antd";
 
 import {
   GetDetailUserApiResponse,
@@ -10,12 +10,7 @@ import {
 } from "../../../../../api/user";
 import { useMessage } from "../../../../../context/MessageContext";
 import { ErrorResponse } from "../../../../../type/global";
-import {
-  GetListUserGroupApiResponse,
-  useGetListUserGroupQuery,
-} from "@/api/userGroup";
-
-const { Option } = Select;
+import { UserStatusOptions } from "@/constants/master-data";
 
 interface PropsType {
   editId: number;
@@ -31,13 +26,9 @@ const CreateOrEdit = ({
   const [form] = Form.useForm();
   const messageApi = useMessage();
 
-  const { data: userGroups } = useGetListUserGroupQuery({
-    selectFields: ["id", "name"],
-  });
-
   const [getDetail, { data, isFetching }] = useLazyGetDetailUserQuery();
-  const [createUserGroup, { isLoading: isCreating }] = usePostUserMutation();
-  const [updateUserGroup, { isLoading: isUpdating }] = usePutUserMutation();
+  const [createUser, { isLoading: isCreating }] = usePostUserMutation();
+  const [updateUser, { isLoading: isUpdating }] = usePutUserMutation();
 
   useEffect(() => {
     if (editId) {
@@ -49,12 +40,13 @@ const CreateOrEdit = ({
     const dataDetail = data as GetDetailUserApiResponse;
     if (dataDetail) {
       form.setFieldsValue({
-        name: dataDetail?.data?.name || "",
+        full_name: dataDetail?.data?.full_name || "",
         username: dataDetail?.data?.username || "",
         email: dataDetail?.data?.email || "",
         phone: dataDetail?.data?.phone || "",
-        status: dataDetail?.data?.status || undefined,
-        userGroupId: dataDetail?.data?.userGroupId || undefined,
+        balance: dataDetail?.data?.balance || "",
+        referral_code: dataDetail?.data?.referral_code || "",
+        status: dataDetail?.data?.status || "pending",
       });
     }
   }, [data]);
@@ -66,34 +58,35 @@ const CreateOrEdit = ({
   // Gửi dữ liệu khi nhấn "Lưu"
   const handleSubmit = (values: TypeUser) => {
     const dataSubmit = {
-      name: values?.name || "",
+      full_name: values?.full_name || "",
       username: values?.username || "",
       email: values?.email || "",
       phone: values?.phone || "",
+      balance: values?.balance || undefined,
+      referral_code: values?.referral_code || "",
       password: values?.password || undefined,
-      status: values?.status || undefined,
-      userGroupId: values?.userGroupId || undefined,
+      status: values?.status || "pending",
     };
 
     if (!editId) {
-      createUserGroup(dataSubmit).then((res) => {
+      createUser(dataSubmit).then((res) => {
         if (res?.error) {
           messageApi.error(
             (res as ErrorResponse).error.data.error.message || ""
           );
         } else {
-          messageApi.success("Tạo tài khoản thành công!");
+          messageApi.success("Tạo người dùng thành công!");
           setIsModalVisible(false);
         }
       });
     } else {
-      updateUserGroup({ body: dataSubmit, id: editId }).then((res) => {
+      updateUser({ body: dataSubmit, id: editId }).then((res) => {
         if (res?.error) {
           messageApi.error(
             (res as ErrorResponse).error.data.error.message || ""
           );
         } else {
-          messageApi.success("Cập nhật tài khoản thành công!");
+          messageApi.success("Cập nhật người dùng thành công!");
           setIsModalVisible(false);
         }
       });
@@ -102,7 +95,7 @@ const CreateOrEdit = ({
 
   return (
     <Modal
-      title="Tạo mới tài khoản"
+      title={!editId ? "Tạo mới người dùng" : "Cập nhât người dùng"}
       visible={isModalVisible}
       onCancel={handleCancel}
       footer={null}
@@ -114,19 +107,15 @@ const CreateOrEdit = ({
           onFinish={handleSubmit}
           className="[&_.ant-form-item]:mb-3"
         >
-          <Form.Item
-            name="name"
-            label="Họ tên"
-            rules={[{ required: true, message: "Vui lòng nhập họ tên!" }]}
-          >
+          <Form.Item name="full_name" label="Họ tên">
             <Input />
           </Form.Item>
 
           <Form.Item
             name="username"
-            label="Tên tài khoản"
+            label="Tên người dùng"
             rules={[
-              { required: true, message: "Vui lòng nhập tên tài khoản!" },
+              { required: true, message: "Vui lòng nhập tên người dùng!" },
             ]}
           >
             <Input />
@@ -140,13 +129,7 @@ const CreateOrEdit = ({
             <Input disabled={!!editId} />
           </Form.Item>
 
-          <Form.Item
-            name="phone"
-            label="Số điện thoại"
-            rules={[
-              { required: true, message: "Vui lòng nhập số điện thoại!" },
-            ]}
-          >
+          <Form.Item name="phone" label="Số điện thoại">
             <Input />
           </Form.Item>
 
@@ -158,39 +141,24 @@ const CreateOrEdit = ({
             <Input.Password />
           </Form.Item>
 
-          <Form.Item
-            name="userGroupId"
-            label="Nhóm tài khoản"
-            rules={[
-              { required: true, message: "Vui lòng chọn nhóm tài khoản!" },
-            ]}
-          >
-            <Select
-              placeholder="Nhóm tài khoản"
-              style={{ width: "100%", marginBottom: "8px" }}
-              allowClear
-              options={(userGroups as GetListUserGroupApiResponse)?.data?.map(
-                (item) => ({
-                  value: item?.id,
-                  label: item?.name,
-                })
-              )}
+          <Form.Item name="balance" label="Số dư">
+            <InputNumber
+              style={{ widows: "100%" }}
+              controls={false}
+              className="w-full"
             />
           </Form.Item>
 
-          <Form.Item
-            name="status"
-            label="Trạng thái"
-            rules={[{ required: true, message: "Vui lòng chọn trạng thái!" }]}
-          >
+          <Form.Item name="referral_code" label="Mã giới thiệu">
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="status" label="Trạng thái">
             <Select
               placeholder="Trạng thái"
               style={{ width: "100%", marginBottom: "8px" }}
-              allowClear
-            >
-              <Option value={1}>Đang hoạt động</Option>
-              <Option value={2}>Dừng hoạt động</Option>
-            </Select>
+              options={UserStatusOptions}
+            />
           </Form.Item>
 
           <Form.Item className="flex justify-end">

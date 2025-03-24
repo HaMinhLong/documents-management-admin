@@ -1,16 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Layout,
-  Input,
-  Table,
-  Button,
-  Dropdown,
-  Menu,
-  Spin,
-  Space,
-  Pagination,
-} from "antd";
-import { DownOutlined, PlusOutlined } from "@ant-design/icons";
+import { Layout, Input, Table, Button, Spin, Space, Pagination } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 import {
   GetListUserApiResponse,
@@ -86,7 +76,7 @@ const TableData = () => {
               allowClear
               style={{ width: "375px" }}
               onSearch={(e) => {
-                setParameter?.({ ...parameter, keyword: e });
+                setParameter?.({ ...parameter, name: e });
               }}
             />
             <Space>
@@ -100,23 +90,11 @@ const TableData = () => {
               >
                 Thêm mới (F2)
               </Button>
-              <Dropdown
-                overlay={
-                  <Menu>
-                    <Menu.Item key="1">Import Excel</Menu.Item>
-                    <Menu.Item key="2">Export Excel</Menu.Item>
-                  </Menu>
-                }
-              >
-                <Button>
-                  File <DownOutlined />
-                </Button>
-              </Dropdown>
             </Space>
           </Space>
           <Table
             columns={columns}
-            dataSource={dataTable?.data}
+            dataSource={dataTable?.data?.data}
             locale={{ emptyText: "Không có dữ liệu" }}
             bordered
             pagination={false}
@@ -127,7 +105,7 @@ const TableData = () => {
               showSizeChanger
               onChange={onPaginationChange}
               defaultCurrent={1}
-              total={dataTable?.pagination?.total}
+              total={dataTable?.data?.pagination?.totalItems}
               size="small"
               pageSize={Number(parameter?.limit || 10)}
             />

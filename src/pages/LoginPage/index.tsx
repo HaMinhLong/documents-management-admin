@@ -18,14 +18,13 @@ const LoginPage = () => {
 
   const onFinish = (values: LoginFormValues) => {
     login(values).then((res: any) => {
-      console.log("res", res);
       if (res?.error) {
         messageApi.error(res.error.data.message || "");
       } else {
-        localStorage.setItem("accessToken", res?.data?.data?.accessToken);
+        localStorage.setItem("accessToken", res?.data?.data?.token);
         dispatch({
           type: "auth/updateAccessToken",
-          payload: res?.data?.data?.accessToken,
+          payload: res?.data?.data?.token,
         });
         window.location.href = "/";
       }

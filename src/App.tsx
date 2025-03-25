@@ -11,6 +11,7 @@ import UserPage from "@/pages/AccountSetting/User";
 
 import LoginPage from "@/pages/LoginPage";
 import UniversityPage from "./pages/UniversityPage";
+import SubjectPage from "./pages/SubjectPage";
 
 const App = () => {
   return (
@@ -37,6 +38,14 @@ const App = () => {
               <Route
                 path="/category-setting/university"
                 element={<UniversityPage />}
+              />
+            </Route>
+
+            {/* Subject Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/category-setting/subject"
+                element={<SubjectPage />}
               />
             </Route>
 

@@ -10,6 +10,7 @@ import HomePage from "@/pages/HomePage";
 import UserPage from "@/pages/AccountSetting/User";
 
 import LoginPage from "@/pages/LoginPage";
+import UniversityPage from "./pages/UniversityPage";
 
 const App = () => {
   return (
@@ -29,6 +30,14 @@ const App = () => {
             {/* User Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/account-setting/user" element={<UserPage />} />
+            </Route>
+
+            {/* University Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/category-setting/university"
+                element={<UniversityPage />}
+              />
             </Route>
 
             {/* Catch-all route */}

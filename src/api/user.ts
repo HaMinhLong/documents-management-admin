@@ -1,6 +1,5 @@
 import { apiWrapper } from "@/store/apiWrapper";
 import { ErrorResponse, LevelStatusType, UserStatusType } from "@/type/global";
-import { PaginationType, TypeUserGroup } from "./userGroup";
 
 const injectedRtkApi = apiWrapper.injectEndpoints({
   endpoints: (build) => ({
@@ -72,7 +71,7 @@ export type PutUserApiArg = {
 export type PostUserApiResponse = {
   message: string;
   statusCode: number;
-  data: TypeUserGroup;
+  data: TypeUser;
 };
 
 export type GetDetailUserApiResponse = {
@@ -88,7 +87,7 @@ export type GetListUserApiResponse = {
   message?: string;
   statusCode?: number;
   data: {
-    data?: TypeUserGroup[];
+    data?: TypeUser[];
     pagination?: PaginationType;
   };
 };
@@ -113,6 +112,13 @@ export type TypeUser = {
   level?: LevelStatusType;
   createdAt?: string;
   updatedAt?: string;
+};
+
+export type PaginationType = {
+  totalItems: number;
+  page: number;
+  limit: number;
+  totalPages: number;
 };
 
 export { injectedRtkApi as UserApi };

@@ -24,18 +24,21 @@ const HeaderPage = () => {
       key: "user_management",
       label: <Link to="/account-setting/user">Quản lý người dùng</Link>,
     },
-    // {
-    //   label: "Cài đặt hệ thống",
-    //   key: "system_setting",
-    //   icon: <SettingOutlined />,
-    //   children: [
-    //     {
-    //       label: <Link to="/system-setting/user-group">Nhóm tài khoản</Link>,
-    //       key: "user_group",
-    //       authorities: ["user_group_getList"],
-    //     },
-    //   ],
-    // },
+    {
+      label: "Quản lý danh mục",
+      key: "category_system",
+      icon: <SettingOutlined />,
+      children: [
+        {
+          label: <Link to="/category-setting/university">Trường học</Link>,
+          key: "university",
+        },
+        {
+          label: <Link to="/category-setting/subject">Môn học</Link>,
+          key: "subject",
+        },
+      ],
+    },
   ];
 
   return (

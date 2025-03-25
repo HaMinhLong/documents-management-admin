@@ -2,14 +2,14 @@ import React, { useContext } from "react";
 import type { CSSProperties } from "react";
 import type { CollapseProps } from "antd";
 import { Layout, Select } from "antd";
-import CollapseCustom from "../../../../../components/AntdCustom/CollapseCustom";
-import { UserContext } from "../..";
 import { UserStatusOptions } from "@/constants/master-data";
+import { UniversityContext } from "..";
+import CollapseCustom from "@/components/AntdCustom/CollapseCustom";
 
 const { Sider } = Layout;
 
 const FilterData = () => {
-  const { parameter, setParameter } = useContext(UserContext);
+  const { parameter, setParameter } = useContext(UniversityContext);
 
   // eslint-disable-next-line no-unused-vars
   const getItems: (panelStyle: CSSProperties) => CollapseProps["items"] = (

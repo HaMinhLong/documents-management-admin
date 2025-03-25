@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button, Popconfirm } from "antd";
-import { TypeUser, useDeleteUserMutation } from "@/api/user";
-import { useMessage } from "../../../../../context/MessageContext";
 import { UserStatusType } from "@/type/global";
+import { useMessage } from "@/context/MessageContext";
+import { TypeUniversity, useDeleteUniversityMutation } from "@/api/university";
 
 interface PropsType {
   getList: any;
@@ -17,7 +17,7 @@ export const useColumnTable = ({
   setIsModalVisible,
 }: PropsType) => {
   const messageApi = useMessage();
-  const [deleteUser] = useDeleteUserMutation();
+  const [deleteRecord] = useDeleteUniversityMutation();
 
   return [
     {
@@ -28,43 +28,18 @@ export const useColumnTable = ({
       fixed: "left",
     },
     {
-      title: "Tên tài khoản",
-      dataIndex: "username",
-      key: "username",
+      title: "Tên trường học",
+      dataIndex: "name",
+      key: "name",
       width: 200,
       fixed: "left",
     },
     {
-      title: "Họ tên",
-      dataIndex: "full_names",
-      key: "full_name",
+      title: "Ghi chú",
+      dataIndex: "description",
+      key: "description",
       width: 150,
     },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      width: 150,
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "phone",
-      key: "phone",
-      width: 150,
-    },
-    {
-      title: "Số dư",
-      dataIndex: "balance",
-      key: "balance",
-      width: 100,
-    },
-    {
-      title: "Mã giới thiệu",
-      dataIndex: "referral_code",
-      key: "referral_code",
-      width: 100,
-    },
-
     {
       title: "Trạng thái",
       dataIndex: "status",
@@ -76,7 +51,7 @@ export const useColumnTable = ({
     },
     {
       title: "Action",
-      render: (record: TypeUser) => {
+      render: (record: TypeUniversity) => {
         return (
           <div className="flex gap-x-2">
             <Button
@@ -96,7 +71,7 @@ export const useColumnTable = ({
               okText="Xoá"
               cancelText="Huỷ"
               onConfirm={() => {
-                deleteUser({ id: record?.id || 0 }).then((res: any) => {
+                deleteRecord({ id: record?.id || 0 }).then((res: any) => {
                   if (res?.data?.success) {
                     messageApi.success("Xoá bản ghi thành công");
                     getList();

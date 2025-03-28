@@ -12,6 +12,7 @@ import UserPage from "@/pages/AccountSetting/User";
 import LoginPage from "@/pages/LoginPage";
 import UniversityPage from "./pages/UniversityPage";
 import SubjectPage from "./pages/SubjectPage";
+import DocumentPage from "./pages/DocumentPage";
 
 const App = () => {
   return (
@@ -47,6 +48,11 @@ const App = () => {
                 path="/category-setting/subject"
                 element={<SubjectPage />}
               />
+            </Route>
+
+            {/* Document Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/document" element={<DocumentPage />} />
             </Route>
 
             {/* Catch-all route */}

@@ -53,10 +53,8 @@ const axiosBaseQuery =
     } catch (axiosError) {
       const err = axiosError as AxiosError;
 
-      // Kiểm tra lỗi 401 (Unauthorized)
       if (err.response?.status === 401 && localStorage.getItem("accessToken")) {
-        // Chuyển hướng người dùng đến màn hình login
-        window.location.href = "/login"; // Đường dẫn màn login
+        window.location.href = "/login";
         localStorage.removeItem("accessToken");
       }
 
@@ -74,6 +72,6 @@ export const apiWrapper = createApi({
       process.env.REACT_APP_BASE_API_URL || "http://localhost:8000/api/v1",
   }),
 
-  tagTypes: ["user", "university", "subject"],
+  tagTypes: ["user", "university", "subject", "document"],
   endpoints: () => ({}),
 });

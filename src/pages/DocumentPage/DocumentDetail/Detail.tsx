@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { Form, Typography, Input, Spin, Image } from "antd";
-import { useParams, Link } from "react-router-dom";
+import { Form, Typography, Spin, Image } from "antd";
+import { useParams } from "react-router-dom";
 
 import {
   GetDetailDocumentApiResponse,
   useLazyGetDetailDocumentQuery,
 } from "@/api/document";
+import { handleGetFile } from "@/utils";
 
 const Detail = () => {
   const { id } = useParams();
@@ -91,7 +92,7 @@ const Detail = () => {
                 dataDetail?.data?.file_path
               ) ? (
                 <Image
-                  src={`${process.env.REACT_APP_SEVER_URL}/${dataDetail?.data?.file_path}`}
+                  src={handleGetFile(dataDetail?.data?.file_path)}
                   className="!max-h-[300px] !w-full object-cover"
                 />
               ) : (
@@ -112,14 +113,9 @@ const Detail = () => {
               /\.(jpe?g|png|gif|bmp|webp)$/i.test(
                 dataDetail?.data?.instruct_path
               ) ? (
-                <img
-                  src={`${process.env.REACT_APP_SEVER_URL}/${dataDetail?.data?.instruct_path}`}
-                  alt="Preview"
-                  style={{
-                    width: "100%",
-                    maxHeight: 600,
-                    objectFit: "contain",
-                  }}
+                <Image
+                  src={handleGetFile(dataDetail?.data?.instruct_path)}
+                  className="!max-h-[300px] !w-full object-cover"
                 />
               ) : (
                 <iframe

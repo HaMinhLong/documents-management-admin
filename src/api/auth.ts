@@ -10,8 +10,19 @@ const injectedRtkApi = apiWrapper.injectEndpoints({
         body: queryArg,
       }),
     }),
+
+    getMe: build.query<GetMeApiResponse, void>({
+      query: () => ({
+        url: "/auth/me",
+        method: "GET",
+      }),
+    }),
   }),
 });
+
+export type GetMeApiResponse = {
+  data: { user?: TypeUser };
+};
 
 export type LoginApiResponse = {
   data: { accessToken?: string | null; permission?: string[]; user?: TypeUser };
@@ -22,4 +33,4 @@ export type LoginApiArg = {
 };
 
 export { injectedRtkApi as AuthApi };
-export const { usePostLoginMutation } = injectedRtkApi;
+export const { usePostLoginMutation, useGetMeQuery } = injectedRtkApi;

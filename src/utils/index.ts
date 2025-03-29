@@ -7,3 +7,9 @@ export const handleConvertObjectToArray = (object: unknown) => {
     };
   });
 };
+
+export const handleGetFile = (path: string) => {
+  if (!path) return undefined;
+
+  return `${process.env.REACT_APP_SEVER_URL}/${path}`;
+};

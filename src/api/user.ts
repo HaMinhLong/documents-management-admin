@@ -102,6 +102,7 @@ export type GetListUserApiArg = {
 export type TypeUser = {
   id?: number;
   username?: string;
+  avatar?: string;
   email?: string;
   password?: string;
   full_name?: string;

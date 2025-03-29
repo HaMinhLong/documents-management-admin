@@ -1,6 +1,6 @@
 import React from "react";
 import { Avatar, Dropdown, Layout, MenuProps, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   LogoutOutlined,
@@ -10,6 +10,10 @@ import {
 
 import SiderPage from "./SiderPage";
 import logoPage from "../assets/image/logo_page.png";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store";
+import { handleGetFile } from "@/utils";
+import { logout } from "@/features/auth/auth.slice";
 
 const { Content, Footer } = Layout;
 
@@ -18,9 +22,20 @@ interface PropsType {
 }
 
 const PageContainer = ({ children }: PropsType) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
+
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch(logout());
+
+    window.location.href = "/login";
+  };
+
   const items: MenuProps["items"] = [
     {
-      label: "Cài đặt tài khoản",
+      label: <Link to="/user/profile">Cài đặt tài khoản</Link>,
       key: "1",
       icon: <SettingOutlined />,
     },
@@ -28,6 +43,7 @@ const PageContainer = ({ children }: PropsType) => {
       label: "Đăng xuất",
       key: "2",
       icon: <LogoutOutlined />,
+      onClick: handleLogout,
     },
   ];
 
@@ -41,8 +57,11 @@ const PageContainer = ({ children }: PropsType) => {
         <div className="flex flex-end p-[10px] z-[1001] cursor-pointer">
           <Dropdown menu={{ items }} placement="bottom">
             <Space>
-              <Avatar icon={<UserOutlined />} />
-              <span style={{ cursor: "pointer" }}>Vũ Hưng</span>
+              <Avatar
+                src={handleGetFile(user?.avatar || "")}
+                icon={!user?.avatar && <UserOutlined />}
+              />
+              <span style={{ cursor: "pointer" }}>{user?.username || ""}</span>
             </Space>
           </Dropdown>
         </div>

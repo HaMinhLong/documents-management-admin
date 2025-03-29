@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import PrivateRoute from "@/components/PrivateRoute";
@@ -8,14 +8,29 @@ import PublicRoute from "@/components/PublicRoute";
 
 import HomePage from "@/pages/HomePage";
 import UserPage from "@/pages/AccountSetting/User";
+import Profile from "@/pages/AccountSetting/Profile";
 
 import LoginPage from "@/pages/LoginPage";
 import UniversityPage from "./pages/UniversityPage";
 import SubjectPage from "./pages/SubjectPage";
 import DocumentPage from "./pages/DocumentPage";
 import DocumentDetail from "./pages/DocumentPage/DocumentDetail";
+import { useGetMeQuery } from "./api/auth";
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const { data: user } = useGetMeQuery();
+
+  useEffect(() => {
+    if (user?.data) {
+      dispatch({
+        type: "auth/updateUserProfile",
+        payload: user?.data,
+      });
+    }
+  }, [user]);
+
   return (
     <AuthProvider>
       <MessageProvider>
@@ -28,6 +43,11 @@ const App = () => {
             {/* Private Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<HomePage />} />
+            </Route>
+
+            {/* Document Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/user/profile" element={<Profile />} />
             </Route>
 
             {/* User Routes */}

@@ -36,7 +36,7 @@ export const useColumnTable = ({
     },
     {
       title: "Họ tên",
-      dataIndex: "full_names",
+      dataIndex: "full_name",
       key: "full_name",
       width: 150,
     },

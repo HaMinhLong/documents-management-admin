@@ -39,6 +39,13 @@ export const useColumnTable = ({
       dataIndex: "price",
       key: "price",
       width: 150,
+      render: (price: number) => {
+        return (
+          <div>
+            {price ? `${Number(price).toLocaleString("vi-VN")} VNĐ` : ""}
+          </div>
+        );
+      },
     },
     {
       title: "Ghi chú",
@@ -60,6 +67,14 @@ export const useColumnTable = ({
       render: (record: TypeDocument) => {
         return (
           <div className="flex gap-x-2">
+            <Button
+              color="primary"
+              type="link"
+              href={`/document/${record?.id}`}
+            >
+              Chi tiết
+            </Button>
+
             <Button
               color="primary"
               variant="outlined"

@@ -157,10 +157,10 @@ const CreateOrEdit = ({
         >
           <Form.Item
             name="title"
-            label="Tên môn học"
-            rules={[{ required: true, message: "Vui lòng nhập tên môn học!" }]}
+            label="Tên tài liệu"
+            rules={[{ required: true, message: "Vui lòng nhập tên tài liệu!" }]}
           >
-            <Input placeholder="Tên môn học" />
+            <Input placeholder="Tên tài liệu" />
           </Form.Item>
 
           <Form.Item
@@ -229,6 +229,10 @@ const CreateOrEdit = ({
               controls={false}
               className="w-full"
               placeholder="Giá"
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+              }
+              parser={(value) => (value ? value.replace(/\./g, "") : "")}
             />
           </Form.Item>
 

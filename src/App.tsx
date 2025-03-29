@@ -13,6 +13,7 @@ import LoginPage from "@/pages/LoginPage";
 import UniversityPage from "./pages/UniversityPage";
 import SubjectPage from "./pages/SubjectPage";
 import DocumentPage from "./pages/DocumentPage";
+import DocumentDetail from "./pages/DocumentPage/DocumentDetail";
 
 const App = () => {
   return (
@@ -53,6 +54,11 @@ const App = () => {
             {/* Document Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/document" element={<DocumentPage />} />
+            </Route>
+
+            {/* Document Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/document/:id" element={<DocumentDetail />} />
             </Route>
 
             {/* Catch-all route */}

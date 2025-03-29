@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiWrapper } from "@/store/apiWrapper";
 import { ErrorResponse, UserStatusType } from "@/type/global";
-import { PaginationType } from "./user";
+import { PaginationType, TypeUser } from "./user";
+import { TypeSubject } from "./subject";
+import { TypeUniversity } from "./university";
 
 const injectedRtkApi = apiWrapper.injectEndpoints({
   endpoints: (build) => ({
@@ -121,6 +123,9 @@ export type TypeDocument = {
   updatedAt?: string;
   file?: any;
   instruct?: any;
+  subject?: TypeSubject;
+  university?: TypeUniversity;
+  user?: TypeUser;
 };
 
 export { injectedRtkApi as DocumentApi };

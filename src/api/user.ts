@@ -30,6 +30,17 @@ const injectedRtkApi = apiWrapper.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+    patchUser: build.mutation<
+      PostUserApiResponse | ErrorResponse,
+      PatchUserApiArg
+    >({
+      query: (data) => ({
+        url: `/user/avatar`,
+        body: data.body,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["user"],
+    }),
     putUser: build.mutation<PostUserApiResponse | ErrorResponse, PutUserApiArg>(
       {
         query: (data) => ({
@@ -66,6 +77,10 @@ export type DeleteUserApiArg = {
 export type PutUserApiArg = {
   id: number;
   body: TypeUser;
+};
+
+export type PatchUserApiArg = {
+  body: any;
 };
 
 export type PostUserApiResponse = {
@@ -111,7 +126,8 @@ export type TypeUser = {
   referral_code?: string;
   status?: UserStatusType;
   level?: LevelStatusType;
-  createdAt?: string;
+  file?: any;
+  created_at?: string;
   updatedAt?: string;
 };
 
@@ -129,6 +145,7 @@ export const {
   useGetDetailUserQuery,
   useLazyGetDetailUserQuery,
   usePostUserMutation,
+  usePatchUserMutation,
   usePutUserMutation,
   useDeleteUserMutation,
 } = injectedRtkApi;

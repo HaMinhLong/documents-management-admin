@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { UploadOutlined } from "@ant-design/icons";
 import { useMessage } from "@/context/MessageContext";
-import { TypeUser, usePutUserMutation } from "@/api/user";
+import { TypeUser, usePatchUserMutation, usePutUserMutation } from "@/api/user";
 import { ErrorResponse } from "../../../../../type/global";
 import { handleGetFile } from "@/utils";
 
@@ -26,6 +26,7 @@ const ProfileForm = () => {
   const user = useSelector((state: RootState) => state.auth.user);
 
   const [updateUser, { isLoading: isUpdating }] = usePutUserMutation();
+  const [updateAvatar] = usePatchUserMutation();
 
   useEffect(() => {
     if (user) {
@@ -48,14 +49,6 @@ const ProfileForm = () => {
     return e?.fileList;
   };
 
-  const beforeUpload = (file: { type: string }) => {
-    const isImage = file.type.startsWith("image/");
-    if (!isImage) {
-      messageApi.error("Chỉ được phép tải lên file hình ảnh!");
-    }
-    return isImage || Upload.LIST_IGNORE;
-  };
-
   const handleSubmit = (values: TypeUser) => {
     const dataSubmit = {
       full_name: values?.full_name || undefined,
@@ -68,16 +61,27 @@ const ProfileForm = () => {
       status: values?.status || undefined,
     };
 
-    updateUser({ body: dataSubmit, id: user?.id || 0 }).then((res) => {
-      if (res?.error) {
-        messageApi.error((res as ErrorResponse).error.data.error.message || "");
-      } else {
-        dispatch({
-          type: "auth/updateUserProfile",
-          payload: (res as any)?.data?.data,
-        });
-        messageApi.success("Cập nhật người dùng thành công!");
-      }
+    const formData = new FormData();
+    if (values?.file?.[0]?.originFileObj) {
+      formData.append("file", values.file[0].originFileObj || "");
+    }
+
+    updateAvatar({ body: formData }).then(() => {
+      updateUser({ body: dataSubmit, id: user?.id || 0 }).then((res) => {
+        if (res?.error) {
+          messageApi.error(
+            (res as ErrorResponse).error.data.error.message || ""
+          );
+        } else {
+          dispatch({
+            type: "auth/updateUserProfile",
+            payload: (res as any)?.data?.data,
+          });
+          window.location.reload();
+
+          messageApi.success("Cập nhật người dùng thành công!");
+        }
+      });
     });
   };
 
@@ -104,7 +108,7 @@ const ProfileForm = () => {
                 listType="text"
                 maxCount={1}
                 accept="image/*"
-                beforeUpload={beforeUpload}
+                beforeUpload={() => false}
               >
                 <Button icon={<UploadOutlined />}>Click to upload</Button>
               </Upload>

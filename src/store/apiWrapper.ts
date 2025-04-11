@@ -72,6 +72,6 @@ export const apiWrapper = createApi({
       process.env.REACT_APP_BASE_API_URL || "http://localhost:8000/api/v1",
   }),
 
-  tagTypes: ["user", "university", "subject", "document"],
+  tagTypes: ["user", "university", "subject", "document", "transaction"],
   endpoints: () => ({}),
 });

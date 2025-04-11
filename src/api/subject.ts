@@ -108,7 +108,7 @@ export type TypeSubject = {
   name?: string;
   description?: string;
   status?: UserStatusType;
-  createdAt?: string;
+  created_at?: string;
   updatedAt?: string;
 };
 

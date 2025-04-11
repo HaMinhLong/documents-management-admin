@@ -119,7 +119,7 @@ export type TypeDocument = {
   view_count?: number;
   download_count?: number;
   status?: UserStatusType;
-  createdAt?: string;
+  created_at?: string;
   updatedAt?: string;
   file?: any;
   instruct?: any;

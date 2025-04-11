@@ -17,6 +17,8 @@ import DocumentPage from "./pages/DocumentPage";
 import DocumentDetail from "./pages/DocumentPage/DocumentDetail";
 import { useGetMeQuery } from "./api/auth";
 import { useDispatch } from "react-redux";
+import Transaction from "./pages/Transaction";
+import TransactionDetail from "./pages/Transaction/TransactionDetail";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,7 +47,7 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
             </Route>
 
-            {/* Document Routes */}
+            {/* Profile Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/user/profile" element={<Profile />} />
             </Route>
@@ -79,6 +81,16 @@ const App = () => {
             {/* Document Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/document/:id" element={<DocumentDetail />} />
+            </Route>
+
+            {/* Transaction Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/transaction" element={<Transaction />} />
+            </Route>
+
+            {/* Transaction Routes */}
+            <Route element={<PrivateRoute />}>
+              <Route path="/transaction/:id" element={<TransactionDetail />} />
             </Route>
 
             {/* Catch-all route */}

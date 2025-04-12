@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Form, Typography, Spin, Image } from "antd";
+import { Form, Typography, Spin, List, Image } from "antd";
 import { useParams } from "react-router-dom";
 
 import {
@@ -86,6 +86,22 @@ const Detail = () => {
             </Form.Item>
           </div>
           <div className="flex-1">
+            <Form.Item label="Hình ảnh tài liệu">
+              <List
+                grid={{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4 }}
+                dataSource={dataDetail?.data?.fileImages || []}
+                renderItem={(image) => (
+                  <List.Item>
+                    <Image
+                      src={handleGetFile(image?.image_path || "")}
+                      className="!max-h-[150px] !w-full object-cover"
+                      preview
+                    />
+                  </List.Item>
+                )}
+              />
+            </Form.Item>
+
             <Form.Item label="Tài liệu">
               {dataDetail?.data?.file_path &&
               /\.(jpe?g|png|gif|bmp|webp)$/i.test(

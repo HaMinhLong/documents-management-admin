@@ -82,6 +82,13 @@ const CreateOrEdit = ({
         university_id: dataDetail?.data?.university_id || "",
         status: dataDetail?.data?.status || "pending",
         description: dataDetail?.data?.description || "",
+        fileImages:
+          dataDetail?.data?.fileImages?.map((img) => ({
+            uid: img?.id,
+            name: img?.name,
+            status: "done",
+            url: `${process.env.REACT_APP_SEVER_URL}/${img.image_path}`,
+          })) || [],
       });
     }
   }, [data]);
@@ -114,6 +121,15 @@ const CreateOrEdit = ({
       formData.append("instruct", values.instruct[0].originFileObj || "");
     }
 
+    // Thêm nhiều hình ảnh
+    if (values?.fileImages) {
+      values.fileImages.forEach((file: any) => {
+        if (file.originFileObj) {
+          formData.append("fileImages", file.originFileObj);
+        }
+      });
+    }
+
     const submitFn = editId
       ? updateDocument({ id: editId, body: formData })
       : createDocument(formData);
@@ -121,7 +137,7 @@ const CreateOrEdit = ({
     submitFn.then((res) => {
       if (res?.error) {
         messageApi.error(
-          (res as ErrorResponse).error.data.error.message ||
+          (res as ErrorResponse)?.error?.data?.error?.message ||
             "Lỗi không xác định"
         );
       } else {
@@ -143,7 +159,7 @@ const CreateOrEdit = ({
 
   return (
     <Modal
-      title={!editId ? "Tạo mới tài liệu" : "Cập nhât tài liệu"}
+      title={!editId ? "Tạo mới tài liệu" : "Cập nhật tài liệu"}
       visible={isModalVisible}
       onCancel={handleCancel}
       footer={null}
@@ -208,7 +224,7 @@ const CreateOrEdit = ({
             </Upload>
           </Form.Item>
 
-          {dataDetail?.data?.file_path && (
+          {dataDetail?.data?.instruct_path && (
             <Link
               className="text-blue-400 my-2"
               target="_blank"
@@ -219,13 +235,31 @@ const CreateOrEdit = ({
             </Link>
           )}
 
+          {/* Thêm trường tải lên nhiều hình ảnh */}
+          <Form.Item
+            name="fileImages"
+            label="Hình ảnh tài liệu"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+          >
+            <Upload
+              name="fileImages"
+              listType="picture"
+              beforeUpload={() => false}
+              multiple // Cho phép tải lên nhiều file
+              maxCount={10} // Giới hạn tối đa 10 hình ảnh
+            >
+              <Button icon={<UploadOutlined />}>Tải lên hình ảnh</Button>
+            </Upload>
+          </Form.Item>
+
           <Form.Item
             name="price"
             label="Giá"
             rules={[{ required: true, message: "Vui lòng nhập giá!" }]}
           >
             <InputNumber
-              style={{ widows: "100%" }}
+              style={{ width: "100%" }}
               controls={false}
               className="w-full"
               placeholder="Giá"

@@ -19,6 +19,8 @@ import { useGetMeQuery } from "./api/auth";
 import { useDispatch } from "react-redux";
 import Transaction from "./pages/Transaction";
 import TransactionDetail from "./pages/Transaction/TransactionDetail";
+import RegisterPage from "./pages/RegisterPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,6 +44,15 @@ const App = () => {
             <Route element={<PublicRoute />}>
               <Route path="/login" element={<LoginPage />} />
             </Route>
+
+            <Route element={<PublicRoute />}>
+              <Route path="/register" element={<RegisterPage />} />
+            </Route>
+
+            <Route element={<PublicRoute />}>
+              <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            </Route>
+
             {/* Private Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="/" element={<HomePage />} />

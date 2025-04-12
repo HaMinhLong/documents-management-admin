@@ -1,35 +1,29 @@
 import React from "react";
 import { Form, Input, Button, Row, Col, Typography } from "antd";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { usePostLoginMutation } from "../../api/auth";
+import { usePostForgotPasswordMutation } from "../../api/auth";
 import { useMessage } from "../../context/MessageContext";
 
 const { Title, Text } = Typography;
 
-const LoginPage = () => {
+const ForgotPasswordPage = () => {
   const messageApi = useMessage();
-  const dispatch = useDispatch();
 
-  const [login, { isLoading }] = usePostLoginMutation();
+  const [forgotPassword, { isLoading }] = usePostForgotPasswordMutation();
 
-  interface LoginFormValues {
+  interface ForgotPasswordFormValues {
     email: string;
-    password: string;
   }
 
-  const onFinish = (values: LoginFormValues) => {
-    login(values).then((res: any) => {
+  const onFinish = (values: ForgotPasswordFormValues) => {
+    forgotPassword(values).then((res: any) => {
       if (res?.error) {
-        messageApi.error(res.error.data.message || "");
+        messageApi.error(res.error.data.message || "Gửi yêu cầu thất bại");
       } else {
-        localStorage.setItem("accessToken", res?.data?.data?.token);
-        dispatch({
-          type: "auth/updateAccessToken",
-          payload: res?.data?.data?.token,
-        });
-        window.location.href = "/";
+        messageApi.success(
+          "Liên kết đặt lại mật khẩu đã được gửi đến email của bạn!"
+        );
       }
     });
   };
@@ -42,7 +36,7 @@ const LoginPage = () => {
     >
       <Col span={8}>
         <Title level={3} style={{ textAlign: "center", marginBottom: 24 }}>
-          Đăng nhập
+          Quên mật khẩu
         </Title>
 
         <div
@@ -54,7 +48,7 @@ const LoginPage = () => {
           }}
         >
           <Form
-            name="login_form"
+            name="forgot_password_form"
             initialValues={{}}
             onFinish={onFinish}
             layout="vertical"
@@ -62,17 +56,12 @@ const LoginPage = () => {
             <Form.Item
               label="Email"
               name="email"
-              rules={[{ required: true, message: "Vui lòng nhập email!" }]}
+              rules={[
+                { required: true, message: "Vui lòng nhập email!" },
+                { type: "email", message: "Email không hợp lệ!" },
+              ]}
             >
               <Input size="large" placeholder="email@gmail.com" />
-            </Form.Item>
-
-            <Form.Item
-              label="Password"
-              name="password"
-              rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
-            >
-              <Input.Password size="large" placeholder="********" />
             </Form.Item>
 
             <Form.Item>
@@ -88,13 +77,13 @@ const LoginPage = () => {
                   fontWeight: 500,
                 }}
               >
-                Sign In
+                Gửi liên kết đặt lại
               </Button>
             </Form.Item>
 
             <div style={{ textAlign: "center" }}>
               <Text>
-                <Link to="/forgot-password">Forgot password?</Link>
+                <Link to="/login">Quay lại đăng nhập</Link>
               </Text>
             </div>
           </Form>
@@ -104,4 +93,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ForgotPasswordPage;

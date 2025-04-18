@@ -37,6 +37,10 @@ const HeaderPage = () => {
           label: <Link to="/category-setting/subject">Môn học</Link>,
           key: "subject",
         },
+        {
+          label: <Link to="/category-setting/category">Chuyên ngành</Link>,
+          key: "category",
+        },
       ],
     },
     {

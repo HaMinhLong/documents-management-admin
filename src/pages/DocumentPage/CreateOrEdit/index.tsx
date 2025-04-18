@@ -30,6 +30,10 @@ import {
 } from "@/api/university";
 import { UploadOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import {
+  GetListCategoryApiResponse,
+  useGetListCategoryQuery,
+} from "@/api/category";
 
 interface PropsType {
   editId: number;
@@ -45,11 +49,19 @@ const CreateOrEdit = ({
   const [form] = Form.useForm();
   const messageApi = useMessage();
 
-  const { data: subjects } = useGetListSubjectQuery({});
   const { data: universities } = useGetListUniversityQuery({});
+  const { data: subjects } = useGetListSubjectQuery({});
+  const { data: categories } = useGetListCategoryQuery({});
   const [getDetail, { data, isFetching }] = useLazyGetDetailDocumentQuery();
   const [createDocument, { isLoading: isCreating }] = usePostDocumentMutation();
   const [updateDocument, { isLoading: isUpdating }] = usePutDocumentMutation();
+
+  const categoryOptions = (
+    categories as GetListCategoryApiResponse
+  )?.data?.data?.map((item) => ({
+    label: item?.name,
+    value: item?.id,
+  }));
 
   const subjectOptions = (
     subjects as GetListSubjectApiResponse
@@ -82,6 +94,10 @@ const CreateOrEdit = ({
         university_id: dataDetail?.data?.university_id || "",
         status: dataDetail?.data?.status || "pending",
         description: dataDetail?.data?.description || "",
+        category_ids:
+          dataDetail?.data?.documentCategories?.map(
+            (item) => item?.category_id
+          ) || [],
         fileImages:
           dataDetail?.data?.fileImages?.map((img) => ({
             uid: img?.id,
@@ -105,6 +121,10 @@ const CreateOrEdit = ({
     formData.append("status", values?.status || "pending");
     formData.append("price", values?.price ? String(values.price) : "");
     formData.append(
+      "category_ids",
+      values?.category_ids ? String(values.category_ids) : ""
+    );
+    formData.append(
       "subject_id",
       values?.subject_id ? String(values.subject_id) : ""
     );
@@ -115,13 +135,9 @@ const CreateOrEdit = ({
 
     if (values?.file?.[0]?.originFileObj) {
       formData.append("file", values.file[0].originFileObj || "");
+      formData.append("instruct", values.file[0].originFileObj || "");
     }
 
-    if (values?.instruct?.[0]?.originFileObj) {
-      formData.append("instruct", values.instruct[0].originFileObj || "");
-    }
-
-    // Thêm nhiều hình ảnh
     if (values?.fileImages) {
       values.fileImages.forEach((file: any) => {
         if (file.originFileObj) {
@@ -207,23 +223,6 @@ const CreateOrEdit = ({
             </Link>
           )}
 
-          <Form.Item
-            name="instruct"
-            label="Instruct"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[{ required: !editId, message: "Vui lòng chọn instruct" }]}
-          >
-            <Upload
-              name="instruct"
-              listType="text"
-              beforeUpload={() => false}
-              maxCount={1}
-            >
-              <Button icon={<UploadOutlined />}>Click to upload</Button>
-            </Upload>
-          </Form.Item>
-
           {dataDetail?.data?.instruct_path && (
             <Link
               className="text-blue-400 my-2"
@@ -235,7 +234,6 @@ const CreateOrEdit = ({
             </Link>
           )}
 
-          {/* Thêm trường tải lên nhiều hình ảnh */}
           <Form.Item
             name="fileImages"
             label="Hình ảnh tài liệu"
@@ -246,8 +244,8 @@ const CreateOrEdit = ({
               name="fileImages"
               listType="picture"
               beforeUpload={() => false}
-              multiple // Cho phép tải lên nhiều file
-              maxCount={10} // Giới hạn tối đa 10 hình ảnh
+              multiple
+              maxCount={10}
             >
               <Button icon={<UploadOutlined />}>Tải lên hình ảnh</Button>
             </Upload>
@@ -271,26 +269,39 @@ const CreateOrEdit = ({
           </Form.Item>
 
           <Form.Item
-            name="subject_id"
-            label="Môn học"
-            rules={[{ required: true, message: "Vui lòng nhập môn học!" }]}
-          >
-            <Select
-              placeholder="Môn học"
-              style={{ width: "100%", marginBottom: "8px" }}
-              options={subjectOptions}
-            />
-          </Form.Item>
-
-          <Form.Item
             name="university_id"
             label="Trường học"
-            rules={[{ required: true, message: "Vui lòng nhập trường học!" }]}
+            rules={[{ required: true, message: "Vui lòng chọn trường học!" }]}
           >
             <Select
               placeholder="Trường học"
               style={{ width: "100%", marginBottom: "8px" }}
               options={universityOptions}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="category_ids"
+            label="Chuyên ngành"
+            rules={[{ required: true, message: "Vui lòng chọn chuyên ngành!" }]}
+          >
+            <Select
+              placeholder="Chuyên ngành"
+              style={{ width: "100%", marginBottom: "8px" }}
+              options={categoryOptions}
+              mode="multiple"
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="subject_id"
+            label="Môn học"
+            rules={[{ required: true, message: "Vui lòng chọn môn học!" }]}
+          >
+            <Select
+              placeholder="Môn học"
+              style={{ width: "100%", marginBottom: "8px" }}
+              options={subjectOptions}
             />
           </Form.Item>
 

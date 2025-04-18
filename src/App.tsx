@@ -21,6 +21,7 @@ import Transaction from "./pages/Transaction";
 import TransactionDetail from "./pages/Transaction/TransactionDetail";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import CategoryPage from "./pages/CategoryPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -81,6 +82,13 @@ const App = () => {
               <Route
                 path="/category-setting/subject"
                 element={<SubjectPage />}
+              />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/category-setting/category"
+                element={<CategoryPage />}
               />
             </Route>
 

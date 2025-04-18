@@ -123,28 +123,6 @@ const Detail = () => {
                 />
               )}
             </Form.Item>
-
-            <Form.Item label="Instruct">
-              {dataDetail?.data?.instruct_path &&
-              /\.(jpe?g|png|gif|bmp|webp)$/i.test(
-                dataDetail?.data?.instruct_path
-              ) ? (
-                <Image
-                  src={handleGetFile(dataDetail?.data?.instruct_path)}
-                  className="!max-h-[300px] !w-full object-cover"
-                />
-              ) : (
-                <iframe
-                  src={`https://docs.google.com/gview?url=${encodeURIComponent(
-                    `${process.env.REACT_APP_SEVER_URL}/${dataDetail?.data?.instruct_path}`
-                  )}&embedded=true`}
-                  width="100%"
-                  height="600px"
-                  frameBorder="0"
-                  title="Document Preview"
-                />
-              )}
-            </Form.Item>
           </div>
         </div>
       </Form>

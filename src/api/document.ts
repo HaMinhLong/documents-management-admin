@@ -123,6 +123,7 @@ export type TypeDocument = {
   updatedAt?: string;
   file?: any;
   instruct?: any;
+  category_ids?: number[];
   subject?: TypeSubject;
   university?: TypeUniversity;
   user?: TypeUser;
@@ -139,8 +140,8 @@ export type FileImages = {
 };
 
 export type DocumentCategoryType = {
-  documentId?: number;
-  categoryId?: number;
+  document_id?: number;
+  category_id?: number;
   category?: TypeCategory;
 };
 

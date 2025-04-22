@@ -22,6 +22,7 @@ import TransactionDetail from "./pages/Transaction/TransactionDetail";
 import RegisterPage from "./pages/RegisterPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import CategoryPage from "./pages/CategoryPage";
+import OrderPage from "./pages/OrderPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -90,6 +91,10 @@ const App = () => {
                 path="/category-setting/category"
                 element={<CategoryPage />}
               />
+            </Route>
+
+            <Route element={<PrivateRoute />}>
+              <Route path="/order" element={<OrderPage />} />
             </Route>
 
             {/* Document Routes */}

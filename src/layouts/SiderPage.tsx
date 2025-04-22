@@ -48,6 +48,10 @@ const HeaderPage = () => {
       label: <Link to="/document">Quản lý tài liệu</Link>,
     },
     {
+      key: "order_management",
+      label: <Link to="/order">Quản lý mua tài liệu</Link>,
+    },
+    {
       key: "transaction_management",
       label: <Link to="/transaction">Quản lý nạp tiền</Link>,
     },

@@ -282,11 +282,11 @@ const CreateOrEdit = ({
 
           <Form.Item
             name="category_ids"
-            label="Chuyên ngành"
-            rules={[{ required: true, message: "Vui lòng chọn chuyên ngành!" }]}
+            label="Chuyên mục"
+            rules={[{ required: true, message: "Vui lòng chọn chuyên mục!" }]}
           >
             <Select
-              placeholder="Chuyên ngành"
+              placeholder="Chuyên mục"
               style={{ width: "100%", marginBottom: "8px" }}
               options={categoryOptions}
               mode="multiple"

@@ -17,6 +17,16 @@ const injectedRtkApi = apiWrapper.injectEndpoints({
       }),
       providesTags: ["document"],
     }),
+    getTopViewDocument: build.query<
+      GetListDocumentApiResponse | ErrorResponse,
+      GetListDocumentApiArg
+    >({
+      query: (queryArg) => ({
+        url: "/document/top-viewed",
+        params: queryArg,
+      }),
+      providesTags: ["document"],
+    }),
     getDetailDocument: build.query<
       GetDetailDocumentApiResponse | ErrorResponse,
       GetDetailDocumentApiArg
@@ -25,6 +35,17 @@ const injectedRtkApi = apiWrapper.injectEndpoints({
         url: `/document/${queryArg?.id}`,
         params: queryArg,
       }),
+    }),
+    createPayment: build.mutation<
+      PostDocumentApiResponse | ErrorResponse,
+      { document_ids: number[] }
+    >({
+      query: (data) => ({
+        url: "/document/payment",
+        body: data,
+        method: "POST",
+      }),
+      invalidatesTags: ["document"],
     }),
     postDocument: build.mutation<
       PostDocumentApiResponse | ErrorResponse,
@@ -157,8 +178,11 @@ export { injectedRtkApi as DocumentApi };
 export const {
   useGetListDocumentQuery,
   useLazyGetListDocumentQuery,
+  useGetTopViewDocumentQuery,
+  useLazyGetTopViewDocumentQuery,
   useGetDetailDocumentQuery,
   useLazyGetDetailDocumentQuery,
+  useCreatePaymentMutation,
   usePostDocumentMutation,
   usePutDocumentMutation,
   useDeleteDocumentMutation,

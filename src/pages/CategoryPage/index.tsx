@@ -24,7 +24,7 @@ const CategoryPage = () => {
         <Layout style={{ minHeight: "100vh" }}>
           <Content style={{ padding: "16px" }}>
             <Typography.Title level={5} className="uppercase mb-4">
-              Quản lý chuyên ngành
+              Quản lý chuyên mục
             </Typography.Title>
 
             <Layout>

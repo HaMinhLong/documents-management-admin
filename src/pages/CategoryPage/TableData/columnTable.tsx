@@ -28,7 +28,7 @@ export const useColumnTable = ({
       fixed: "left",
     },
     {
-      title: "Tên chuyên ngành",
+      title: "Tên chuyên mục",
       dataIndex: "name",
       key: "name",
       width: 200,

@@ -62,7 +62,7 @@ const CreateOrEdit = ({
       username: values?.username || "",
       email: values?.email || "",
       phone: values?.phone || "",
-      balance: values?.balance || undefined,
+      balance: values?.balance || 0,
       referral_code: values?.referral_code || "",
       password: values?.password || undefined,
       status: values?.status || "pending",
@@ -72,7 +72,8 @@ const CreateOrEdit = ({
       createUser(dataSubmit).then((res) => {
         if (res?.error) {
           messageApi.error(
-            (res as ErrorResponse).error.data.error.message || ""
+            (res as ErrorResponse)?.error?.data?.error?.message ||
+              "Xảy ra lỗi. Vui lòng thử lại."
           );
         } else {
           messageApi.success("Tạo người dùng thành công!");
@@ -83,7 +84,8 @@ const CreateOrEdit = ({
       updateUser({ body: dataSubmit, id: editId }).then((res) => {
         if (res?.error) {
           messageApi.error(
-            (res as ErrorResponse).error.data.error.message || ""
+            (res as ErrorResponse)?.error?.data?.error?.message ||
+              "Xảy ra lỗi. Vui lòng thử lại."
           );
         } else {
           messageApi.success("Cập nhật người dùng thành công!");

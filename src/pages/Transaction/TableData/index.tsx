@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Layout, Input, Table, Button, Spin, Space, Pagination } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
 
 import { useColumnTable } from "./columnTable";
 // import CreateOrEdit from "../CreateOrEdit";
@@ -60,11 +59,9 @@ const TableData = () => {
 
   return (
     <>
-      <FilterData />
-
       <Content style={{ padding: "16px", background: "#fff" }}>
         <Spin spinning={isFetching}>
-          <Space
+          {/* <Space
             style={{
               width: "100%",
               justifyContent: "space-between",
@@ -80,7 +77,7 @@ const TableData = () => {
               }}
             />
             <Space></Space>
-          </Space>
+          </Space> */}
           <Table
             columns={columns}
             dataSource={dataTable?.data?.data}

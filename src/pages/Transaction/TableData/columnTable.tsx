@@ -79,32 +79,5 @@ export const useColumnTable = ({
         return <div>{moment(created_at).format("DD-MM-YYYY")}</div>;
       },
     },
-    {
-      title: "Action",
-      render: (record: TypeTransaction) => {
-        return (
-          <div className="flex gap-x-2">
-            <Button
-              color="primary"
-              type="link"
-              href={`/transaction/${record?.id}`}
-            >
-              Chi tiết
-            </Button>
-
-            {/* <Button
-              color="primary"
-              variant="outlined"
-              onClick={() => {
-                setIsModalVisible(true);
-                setEditId(record?.id || 0);
-              }}
-            >
-              Sửa
-            </Button> */}
-          </div>
-        );
-      },
-    },
   ];
 };

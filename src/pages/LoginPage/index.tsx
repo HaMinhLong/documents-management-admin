@@ -29,7 +29,7 @@ const LoginPage = () => {
           type: "auth/updateAccessToken",
           payload: res?.data?.data?.token,
         });
-        window.location.href = "/";
+        window.location.href = "/account-setting/user";
       }
     });
   };

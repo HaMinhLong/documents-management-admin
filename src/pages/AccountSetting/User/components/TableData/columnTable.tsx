@@ -57,12 +57,25 @@ export const useColumnTable = ({
       dataIndex: "balance",
       key: "balance",
       width: 100,
+      render: (balance: number) => {
+        return (
+          <div>
+            {balance ? `${Number(balance).toLocaleString("vi-VN")} VNĐ` : ""}
+          </div>
+        );
+      },
+    },
+    {
+      title: "Rank",
+      dataIndex: "level",
+      key: "level",
+      width: 100,
     },
     {
       title: "Mã giới thiệu",
       dataIndex: "referral_code",
       key: "referral_code",
-      width: 100,
+      width: 150,
     },
 
     {

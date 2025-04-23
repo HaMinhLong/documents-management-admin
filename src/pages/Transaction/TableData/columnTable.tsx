@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Button } from "antd";
-import { TransactionStatusType, TransactionTypeType } from "@/type/global";
+import {
+  TransactionStatusType,
+  TransactionTypeType,
+  UserStatusType,
+} from "@/type/global";
 import { TypeTransaction } from "@/api/transaction";
 import { TypeUser } from "@/api/user";
 import moment from "moment";
+import { getStatusTag } from "@/utils/utils";
 
 interface PropsType {
   getList: any;
@@ -58,16 +63,16 @@ export const useColumnTable = ({
       key: "type",
       width: 150,
       render: (type: TransactionTypeType) => {
-        return <div>{type}</div>;
+        return <div>VnPay</div>;
       },
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      width: 150,
-      render: (status: TransactionStatusType) => {
-        return <div>{status}</div>;
+      width: 120,
+      render: (status: UserStatusType) => {
+        return <div>{getStatusTag(status)}</div>;
       },
     },
     {

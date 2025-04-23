@@ -4,6 +4,7 @@ import { Button, Popconfirm } from "antd";
 import { TypeUser, useDeleteUserMutation } from "@/api/user";
 import { useMessage } from "../../../../../context/MessageContext";
 import { UserStatusType } from "@/type/global";
+import { getRankTag, getStatusTag } from "@/utils/utils";
 
 interface PropsType {
   getList: any;
@@ -56,7 +57,7 @@ export const useColumnTable = ({
       title: "Số dư",
       dataIndex: "balance",
       key: "balance",
-      width: 100,
+      width: 200,
       render: (balance: number) => {
         return (
           <div>
@@ -70,7 +71,11 @@ export const useColumnTable = ({
       dataIndex: "level",
       key: "level",
       width: 100,
+      render: (level: string) => {
+        return <>{getRankTag(level)}</>;
+      },
     },
+
     {
       title: "Mã giới thiệu",
       dataIndex: "referral_code",
@@ -82,9 +87,9 @@ export const useColumnTable = ({
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      width: 150,
+      width: 120,
       render: (status: UserStatusType) => {
-        return <div>{status}</div>;
+        return <div>{getStatusTag(status)}</div>;
       },
     },
     {

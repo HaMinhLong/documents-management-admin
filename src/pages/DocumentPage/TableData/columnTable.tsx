@@ -4,6 +4,7 @@ import { Button, Popconfirm } from "antd";
 import { UserStatusType } from "@/type/global";
 import { useMessage } from "@/context/MessageContext";
 import { TypeDocument, useDeleteDocumentMutation } from "@/api/document";
+import { getStatusTag } from "@/utils/utils";
 
 interface PropsType {
   getList: any;
@@ -57,9 +58,9 @@ export const useColumnTable = ({
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
-      width: 150,
+      width: 120,
       render: (status: UserStatusType) => {
-        return <div>{status}</div>;
+        return <div>{getStatusTag(status)}</div>;
       },
     },
     {

@@ -148,6 +148,12 @@ const CreateOrEdit = ({
               style={{ widows: "100%" }}
               controls={false}
               className="w-full"
+              parser={(value) =>
+                parseInt((value || "").replace(/[^\d]/g, ""), 10)
+              }
+              formatter={(value) =>
+                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              }
             />
           </Form.Item>
 

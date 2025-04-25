@@ -15,20 +15,12 @@ export const PaymentStatusOptions = [
 
 export const UserStatusOptions = [
   {
-    value: "pending",
-    label: "Pending",
-  },
-  {
     value: "active",
     label: "Active",
   },
   {
     value: "inactive",
     label: "Inactive",
-  },
-  {
-    value: "blocked",
-    label: "Blocked",
   },
 ];
 export const LevelStatusOptions = [
